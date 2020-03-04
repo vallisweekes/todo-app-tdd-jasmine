@@ -1,1 +1,1 @@
-# todo-app-tdd-jasmine
+# To do app with Testing applied
