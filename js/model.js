@@ -102,8 +102,8 @@
         total: 0
       };
 
-      this.storage.findAll(function(data) {
-        data.forEach(function(todo) {
+      this.storage.findAll(data => {
+        data.forEach(todo => {
           if (todo.completed) {
             todos.completed++;
           } else {

@@ -105,7 +105,7 @@ describe('controller', () => {
 
       console.log('Checking here ', window.app.Controller.prototype);
       const spy = spyOn(window.app.Controller.prototype, 'showCompleted');
-      console.log('this spy', spy);
+      // console.log('this spy', spy);
       var todo = { title: 'my todo', completed: true };
 
       model.read.and.callFake(() => {

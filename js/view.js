@@ -92,50 +92,49 @@
 
       listItem.className = listItem.className.replace('editing', '');
 
-      qsa('label', listItem).forEach(function(label) {
+      qsa('label', listItem).forEach(label => {
         label.textContent = title;
       });
     }
 
     render(viewCmd, parameter) {
-      var self = this;
       var viewCommands = {
-        showEntries: function() {
-          self.$todoList.innerHTML = self.template.show(parameter);
+        showEntries: () => {
+          this.$todoList.innerHTML = this.template.show(parameter);
         },
-        removeItem: function() {
-          self._removeItem(parameter);
+        removeItem: () => {
+          this._removeItem(parameter);
         },
-        updateElementCount: function() {
-          self.$todoItemCounter.innerHTML = self.template.itemCounter(
+        updateElementCount: () => {
+          this.$todoItemCounter.innerHTML = this.template.itemCounter(
             parameter
           );
         },
-        clearCompletedButton: function() {
-          self._clearCompletedButton(parameter.completed, parameter.visible);
+        clearCompletedButton: () => {
+          this._clearCompletedButton(parameter.completed, parameter.visible);
         },
-        contentBlockVisibility: function() {
-          self.$main.style.display = self.$footer.style.display = parameter.visible
+        contentBlockVisibility: () => {
+          this.$main.style.display = this.$footer.style.display = parameter.visible
             ? 'block'
             : 'none';
         },
-        toggleAll: function() {
-          self.$toggleAll.checked = parameter.checked;
+        toggleAll: () => {
+          this.$toggleAll.checked = parameter.checked;
         },
-        setFilter: function() {
-          self._setFilter(parameter);
+        setFilter: () => {
+          this._setFilter(parameter);
         },
-        clearNewTodo: function() {
-          self.$newTodo.value = '';
+        clearNewTodo: () => {
+          this.$newTodo.value = '';
         },
-        elementComplete: function() {
-          self._elementComplete(parameter.id, parameter.completed);
+        elementComplete: () => {
+          this._elementComplete(parameter.id, parameter.completed);
         },
-        editItem: function() {
-          self._editItem(parameter.id, parameter.title);
+        editItem: () => {
+          this._editItem(parameter.id, parameter.title);
         },
-        editItemDone: function() {
-          self._editItemDone(parameter.id, parameter.title);
+        editItemDone: () => {
+          this._editItemDone(parameter.id, parameter.title);
         }
       };
 
@@ -148,8 +147,11 @@
     }
 
     _bindItemEditDone(handler) {
+      console.log(`Checking the This Here ${this}`);
       var self = this;
       $delegate(self.$todoList, 'li .edit', 'blur', function() {
+        console.log(`Checking this inside delegate ${this}`);
+
         if (!this.dataset.iscanceled) {
           handler({
             id: self._itemId(this),
