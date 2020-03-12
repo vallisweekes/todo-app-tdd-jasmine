@@ -69,6 +69,7 @@
      * @param {object} data The properties to update and their new value
      * @param {function} callback The callback to fire when the update is complete.
      */
+
     update(id, data, callback) {
       this.storage.save(data, callback, id);
     }
@@ -116,9 +117,6 @@
       });
     }
   }
-  // function Model(storage) {
-
-  // }
 
   // Export to window
   window.app = window.app || {};

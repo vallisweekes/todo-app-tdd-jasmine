@@ -17,10 +17,8 @@
   class View {
     constructor(template) {
       this.template = template;
-
       this.ENTER_KEY = 13;
       this.ESCAPE_KEY = 27;
-
       this.$todoList = qs('.todo-list');
       this.$todoItemCounter = qs('.todo-count');
       this.$clearCompleted = qs('.clear-completed');
@@ -102,37 +100,48 @@
         showEntries: () => {
           this.$todoList.innerHTML = this.template.show(parameter);
         },
+
         removeItem: () => {
           this._removeItem(parameter);
         },
+
         updateElementCount: () => {
           this.$todoItemCounter.innerHTML = this.template.itemCounter(
             parameter
           );
         },
+
         clearCompletedButton: () => {
           this._clearCompletedButton(parameter.completed, parameter.visible);
         },
+
         contentBlockVisibility: () => {
           this.$main.style.display = this.$footer.style.display = parameter.visible
             ? 'block'
             : 'none';
         },
+
         toggleAll: () => {
           this.$toggleAll.checked = parameter.checked;
         },
+
         setFilter: () => {
+          console.log(`setFilter - ${parameter}`);
           this._setFilter(parameter);
         },
+
         clearNewTodo: () => {
           this.$newTodo.value = '';
         },
+
         elementComplete: () => {
           this._elementComplete(parameter.id, parameter.completed);
         },
+
         editItem: () => {
           this._editItem(parameter.id, parameter.title);
         },
+
         editItemDone: () => {
           this._editItemDone(parameter.id, parameter.title);
         }
@@ -217,11 +226,10 @@
       }
     }
   }
-  // function View(template) {}
 
   // Export to window
   window.app = window.app || {};
   window.app.View = View;
 
-  console.log(window.app);
+  // console.log(window.app);
 })(window);

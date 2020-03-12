@@ -11,40 +11,40 @@
 
   class Controller {
     constructor(model, view) {
-      var self = this;
-      self.model = model;
-      self.view = view;
+      // var self = this;
+      this.model = model;
+      this.view = view;
 
-      self.view.bind('newTodo', function(title) {
-        self.addItem(title);
+      this.view.bind('newTodo', title => {
+        this.addItem(title);
       });
 
-      self.view.bind('itemEdit', function(item) {
-        self.editItem(item.id);
+      this.view.bind('itemEdit', item => {
+        this.editItem(item.id);
       });
 
-      self.view.bind('itemEditDone', function(item) {
-        self.editItemSave(item.id, item.title);
+      this.view.bind('itemEditDone', item => {
+        this.editItemSave(item.id, item.title);
       });
 
-      self.view.bind('itemEditCancel', function(item) {
-        self.editItemCancel(item.id);
+      this.view.bind('itemEditCancel', item => {
+        this.editItemCancel(item.id);
       });
 
-      self.view.bind('itemRemove', function(item) {
-        self.removeItem(item.id);
+      this.view.bind('itemRemove', item => {
+        this.removeItem(item.id);
       });
 
-      self.view.bind('itemToggle', function(item) {
-        self.toggleComplete(item.id, item.completed);
+      this.view.bind('itemToggle', item => {
+        this.toggleComplete(item.id, item.completed);
       });
 
-      self.view.bind('removeCompleted', function() {
-        self.removeCompletedItems();
+      this.view.bind('removeCompleted', () => {
+        this.removeCompletedItems();
       });
 
-      self.view.bind('toggleAll', function(status) {
-        self.toggleAll(status.completed);
+      this.view.bind('toggleAll', status => {
+        this.toggleAll(status.completed);
       });
     }
 
@@ -69,7 +69,7 @@
         // debugger;
         self.view.render('showEntries', data);
 
-        console.log('Checking', data);
+        // console.log('Checking', data);
       });
     }
 

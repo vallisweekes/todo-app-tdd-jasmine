@@ -50,7 +50,7 @@
 
       callback.call(
         this,
-        todos.filter(function(todo) {
+        todos.filter(todo => {
           for (var q in query) {
             if (query[q] !== todo[q]) {
               return false;
@@ -127,12 +127,23 @@
       var todos = data.todos;
       var todoId;
 
-      for (var i = 0; i < todos.length; i++) {
-        if (todos[i].id == id) {
-          todoId = todos[i].id;
+      todos.forEach(todo => {
+        if (todo.id == id) {
+          todoId = todo.id;
         }
-      }
+      });
 
+      // for (var i = 0; i < todos.length; i++) {
+      //   if (todos[i].id == id) {
+      //     todoId = todos[i].id;
+      //   }
+      // }
+
+      // todos.forEach((todo, i) => {
+      //   if (todo.id == todoId) {
+      //     todo.splice(i, 1);
+      //   }
+      // });
       for (var i = 0; i < todos.length; i++) {
         if (todos[i].id == todoId) {
           todos.splice(i, 1);
