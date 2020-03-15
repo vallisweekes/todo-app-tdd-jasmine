@@ -188,7 +188,7 @@
     removeCompletedItems() {
       var self = this;
       self.model.read({ completed: true }, function(data) {
-        data.forEach(function(item) {
+        data.forEach(item => {
           self.removeItem(item.id);
         });
       });
@@ -226,7 +226,7 @@
     toggleAll(completed) {
       var self = this;
       self.model.read({ completed: !completed }, function(data) {
-        data.forEach(function(item) {
+        data.forEach(item => {
           self.toggleComplete(item.id, completed, true);
         });
       });

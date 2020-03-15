@@ -1,6 +1,6 @@
 /*global app, jasmine, describe, it, beforeEach, expect */
 
-describe('controller', () => {
+describe('Controller', () => {
   'use strict';
 
   var subject, model, view;
@@ -43,6 +43,7 @@ describe('controller', () => {
       },
       trigger: (event, parameter) => {
         eventRegistry[event](parameter);
+        console.log(eventRegistry[event](parameter));
       }
     };
   };
@@ -55,9 +56,11 @@ describe('controller', () => {
       'create',
       'update'
     ]);
+
     view = createViewStub();
     subject = new app.Controller(model, view);
-    console.log(' Checking Subjects', subject);
+
+    console.log(subject.view);
   });
 
   it('should show entries on start-up', () => {
@@ -164,11 +167,15 @@ describe('controller', () => {
   });
 
   it('should highlight "All" filter by default', () => {
+    //setFilter method In View js should be tested here.
+    //Check _updateFilterState
     // TODO: write test
     subject.setView('');
   });
 
   it('should highlight "Active" filter when switching to active view', () => {
+    //setFilter method In View js should be tested here.
+    //Check _updateFilterState
     // TODO: write test
   });
 
@@ -187,13 +194,30 @@ describe('controller', () => {
     });
 
     it('should update the view', () => {
+      //Check _updateFilterState
+
+      console.log(subject.setView(''));
       // TODO: write test
     });
   });
 
   describe('new todo', () => {
     it('should add a new todo to the model', () => {
+      /* 
+     create(title, callback) {
+      title = title || '';
+      callback = callback || function() {};
+
+      var newItem = {
+        title: title.trim(),
+        completed: false
+      };
+      this.storage.save(newItem, callback);
+    }
+     */
       // TODO: write test
+
+      expect(model.create);
     });
 
     it('should add a new todo to the view', () => {
@@ -237,7 +261,17 @@ describe('controller', () => {
 
   describe('element removal', () => {
     it('should remove an entry from the model', () => {
-      // TODO: write test
+      var todo = { id: 42, title: 'my todo', completed: true };
+      setUpModel([todo]);
+      /* in Modeljs
+      * remove(id, callback) {
+      * this.storage.remove(id, callback);
+    } */
+
+      subject.setView('');
+      view.trigger('itemRemove', { id: 42 });
+      expect(model.remove).toHaveBeenCalledWith(42, jasmine.any(Function));
+      // My TODO: write test
     });
 
     it('should remove an entry from the view', () => {

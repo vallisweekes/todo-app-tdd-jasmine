@@ -12,7 +12,6 @@
     constructor(storage) {
       this.storage = storage;
     }
-
     /**
      * Creates a new todo model
      *

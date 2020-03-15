@@ -15,7 +15,7 @@
 
   // Attach a handler to event for all elements that match the selector,
   // now or in the future, based on a root element
-  window.$delegate = function(target, selector, type, handler) {
+  window.$delegate = (target, selector, type, handler) => {
     function dispatchEvent(event) {
       var targetElement = event.target;
       var potentialElements = window.qsa(selector, target);
@@ -35,7 +35,7 @@
 
   // Find the element's parent with the given tag name:
   // $parent(qs('a'), 'div');
-  window.$parent = function(element, tagName) {
+  window.$parent = (element, tagName) => {
     if (!element.parentNode) return;
 
     if (element.parentNode.tagName.toLowerCase() === tagName.toLowerCase())

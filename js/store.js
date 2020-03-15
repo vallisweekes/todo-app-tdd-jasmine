@@ -85,13 +85,14 @@
 
       callback = callback || function() {};
 
-      // Generate an ID
+      //Generate unique ID
       var newId = '';
-      var charset = '0123456789';
+      var charset = Date.now().toFixed();
 
-      for (var i = 0; i < 6; i++) {
+      for (let i = 0; i < 15; i++) {
         newId += charset.charAt(Math.floor(Math.random() * charset.length));
       }
+      console.log(`Checking IDs ${newId}`);
 
       // If an ID was actually given, find the item and update each property
       if (id) {
@@ -128,9 +129,11 @@
       var todoId;
 
       todos.forEach(todo => {
-        if (todo.id == id) {
-          todoId = todo.id;
-        }
+        if (todo.id == id) todoId = todo.id;
+      });
+
+      todos.forEach((todo, i) => {
+        if (todo.id == todoId) todos.splice(i, 1);
       });
 
       // for (var i = 0; i < todos.length; i++) {
@@ -139,16 +142,12 @@
       //   }
       // }
 
-      // todos.forEach((todo, i) => {
-      //   if (todo.id == todoId) {
-      //     todo.splice(i, 1);
+      // for (var i = 0; i < todos.length; i++) {
+      //   if (todos[i].id == todoId) {
+      //     console.log(`What is I ${i}`);
+      //     todos.splice(i, 1);
       //   }
-      // });
-      for (var i = 0; i < todos.length; i++) {
-        if (todos[i].id == todoId) {
-          todos.splice(i, 1);
-        }
-      }
+      // }
 
       localStorage[this._dbName] = JSON.stringify(data);
       callback.call(this, todos);
