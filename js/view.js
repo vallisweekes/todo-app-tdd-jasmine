@@ -126,7 +126,7 @@
         },
 
         setFilter: () => {
-          console.log(`setFilter - ${parameter}`);
+          console.log(`Showing filter ${parameter}`);
           this._setFilter(parameter);
         },
 
@@ -159,8 +159,6 @@
       console.log(`Checking the This Here ${this}`);
       var self = this;
       $delegate(self.$todoList, 'li .edit', 'blur', function() {
-        console.log(`Checking this inside delegate ${this}`);
-
         if (!this.dataset.iscanceled) {
           handler({
             id: self._itemId(this),

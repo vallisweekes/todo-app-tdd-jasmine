@@ -92,7 +92,6 @@
       for (let i = 0; i < 15; i++) {
         newId += charset.charAt(Math.floor(Math.random() * charset.length));
       }
-      console.log(`Checking IDs ${newId}`);
 
       // If an ID was actually given, find the item and update each property
       if (id) {
@@ -135,19 +134,6 @@
       todos.forEach((todo, i) => {
         if (todo.id == todoId) todos.splice(i, 1);
       });
-
-      // for (var i = 0; i < todos.length; i++) {
-      //   if (todos[i].id == id) {
-      //     todoId = todos[i].id;
-      //   }
-      // }
-
-      // for (var i = 0; i < todos.length; i++) {
-      //   if (todos[i].id == todoId) {
-      //     console.log(`What is I ${i}`);
-      //     todos.splice(i, 1);
-      //   }
-      // }
 
       localStorage[this._dbName] = JSON.stringify(data);
       callback.call(this, todos);

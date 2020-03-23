@@ -18,15 +18,15 @@
      * @param {string} [title] The title of the task
      * @param {function} [callback] The callback to fire after the model is created
      */
+
+    //Adding todos to the model
     create(title, callback) {
       title = title || '';
       callback = callback || function() {};
-
       var newItem = {
         title: title.trim(),
         completed: false
       };
-
       this.storage.save(newItem, callback);
     }
 
@@ -66,6 +66,7 @@
      *
      * @param {number} id The id of the model to update
      * @param {object} data The properties to update and their new value
+     *
      * @param {function} callback The callback to fire when the update is complete.
      */
 

@@ -79,18 +79,21 @@
 
     showActive() {
       var self = this;
-      self.model.read({ completed: false }, function(data) {
-        self.view.render('showEntries', data);
+      self.model.read({ completed: false }, data => {
+        this.view.render('showEntries', data);
       });
     }
 
     /**
      * Renders all completed tasks
      */
+
     showCompleted() {
       var self = this;
-      self.model.read({ completed: true }, function(data) {
-        self.view.render('showEntries', data);
+      self.model.read({ completed: true }, data => {
+        console.log(this);
+        console.log(self);
+        this.view.render('showEntries', data);
       });
     }
 
@@ -288,7 +291,7 @@
       // Store a reference to the active route, allowing us to re-filter todo
       // items as they are marked complete or incomplete.
       this._activeRoute = currentPage;
-
+      console.log('Checking active route', currentPage);
       if (currentPage === '') {
         this._activeRoute = 'All';
       }

@@ -43,7 +43,6 @@ describe('Controller', () => {
       },
       trigger: (event, parameter) => {
         eventRegistry[event](parameter);
-        console.log(eventRegistry[event](parameter));
       }
     };
   };
@@ -106,15 +105,13 @@ describe('Controller', () => {
     it('should show completed entries', () => {
       // My Test
 
-      console.log('Checking here ', window.app.Controller.prototype);
+      // console.log('Checking here ', window.app.Controller.prototype);
       const spy = spyOn(window.app.Controller.prototype, 'showCompleted');
       // console.log('this spy', spy);
       var todo = { title: 'my todo', completed: true };
 
       model.read.and.callFake(() => {
         view.render('showEntries', todo);
-        // debugger;
-        console.log('Inside model.read', todo);
       });
 
       subject.setView('');
@@ -167,30 +164,28 @@ describe('Controller', () => {
   });
 
   it('should highlight "All" filter by default', () => {
-    //setFilter method In View js should be tested here.
-    //Check _updateFilterState
     // TODO: write test
     subject.setView('');
   });
 
   it('should highlight "Active" filter when switching to active view', () => {
-    //setFilter method In View js should be tested here.
-    //Check _updateFilterState
-    // TODO: write test
+    // const spy = spyOn(window.app.Controller.prototype, 'showActive');
+
+    subject.setView('');
+
+    view.render('setFilter', 'currentPage');
+    expect(view.render).toHaveBeenCalled();
+
+    // TODO:
   });
 
   describe('toggle all', () => {
+    // My Todo:
     it('should toggle all todos to completed', () => {
-      // TODO: write test
       const spy = spyOn(window.app.Controller.prototype, 'toggleAll');
-      // console.log('What is subject', spy(completed));
-      view.bind('toggleAll', status => {
-        spy(status.completed);
-      });
-      expect(spy).toHaveBeenCalledTimes(0);
-      // self.view.bind('toggleAll', function(status) {
-      //   self.toggleAll(status.completed);
-      // });
+      spy(status.completed);
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(status.completed);
     });
 
     it('should update the view', () => {
@@ -203,21 +198,13 @@ describe('Controller', () => {
 
   describe('new todo', () => {
     it('should add a new todo to the model', () => {
-      /* 
-     create(title, callback) {
-      title = title || '';
-      callback = callback || function() {};
-
-      var newItem = {
-        title: title.trim(),
-        completed: false
-      };
-      this.storage.save(newItem, callback);
-    }
-     */
-      // TODO: write test
-
-      expect(model.create);
+      //My todo
+      setUpModel([]);
+      subject.setView('');
+      view.trigger('newTodo', 'title');
+      expect(model.create).toHaveBeenCalled();
+      expect(model.create).toHaveBeenCalledTimes(1);
+      expect(model.create).toHaveBeenCalledWith('title', jasmine.any(Function));
     });
 
     it('should add a new todo to the view', () => {
