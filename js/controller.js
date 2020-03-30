@@ -64,10 +64,10 @@
      * todo-list
      */
     showAll() {
-      // var self = this;
-      this.model.read(data => {
+      var self = this;
+      self.model.read(function(data) {
         // debugger;
-        this.view.render('showEntries', data);
+        self.view.render('showEntries', data);
 
         // console.log('Checking', data);
       });
@@ -78,8 +78,8 @@
      */
 
     showActive() {
-      // var self = this;
-      this.model.read({ completed: false }, data => {
+      var self = this;
+      self.model.read({ completed: false }, data => {
         this.view.render('showEntries', data);
       });
     }
@@ -89,10 +89,10 @@
      */
 
     showCompleted() {
-      // var self = this;
-      this.model.read({ completed: true }, data => {
+      var self = this;
+      self.model.read({ completed: true }, data => {
         console.log(this);
-
+        console.log(self);
         this.view.render('showEntries', data);
       });
     }
@@ -103,16 +103,15 @@
      */
 
     addItem(title) {
-      // var self = this;
-      console.log('this keyword inside additem', this);
+      var self = this;
+
       if (title.trim() === '') {
         return;
       }
 
-      this.model.create(title, () => {
-        console.log('this keyword inside create model', this);
-        this.view.render('clearNewTodo');
-        this._filter(true);
+      self.model.create(title, function() {
+        self.view.render('clearNewTodo');
+        self._filter(true);
       });
     }
 
@@ -120,10 +119,9 @@
      * Triggers the item editing mode.
      */
     editItem(id) {
-      // var self = this;
-      console.log('This inside edit item', this);
-      this.model.read(id, data => {
-        this.view.render('editItem', { id: id, title: data[0].title });
+      var self = this;
+      self.model.read(id, function(data) {
+        self.view.render('editItem', { id: id, title: data[0].title });
       });
     }
 
@@ -131,7 +129,7 @@
      * Finishes the item editing mode successfully.
      */
     editItemSave(id, title) {
-      // var self = this;
+      var self = this;
 
       while (title[0] === ' ') {
         title = title.slice(1);
@@ -142,11 +140,11 @@
       }
 
       if (title.length !== 0) {
-        this.model.update(id, { title: title }, () => {
-          this.view.render('editItemDone', { id: id, title: title });
+        self.model.update(id, { title: title }, function() {
+          self.view.render('editItemDone', { id: id, title: title });
         });
       } else {
-        this.removeItem(id);
+        self.removeItem(id);
       }
     }
 
@@ -154,9 +152,9 @@
      * Cancels the item editing mode.
      */
     editItemCancel(id) {
-      // var self = this;
-      this.model.read(id, function(data) {
-        this.view.render('editItemDone', { id: id, title: data[0].title });
+      var self = this;
+      self.model.read(id, function(data) {
+        self.view.render('editItemDone', { id: id, title: data[0].title });
       });
     }
 
@@ -168,9 +166,9 @@
      * storage
      */
     removeItem(id) {
-      // var self = this;
+      var self = this;
       var items;
-      this.model.read(data => {
+      self.model.read(function(data) {
         items = data;
       });
 
@@ -180,25 +178,25 @@
         }
       });
 
-      this.model.remove(id, () => {
-        this.view.render('removeItem', id);
+      self.model.remove(id, function() {
+        self.view.render('removeItem', id);
       });
 
-      this._filter();
+      self._filter();
     }
 
     /**
      * Will remove all completed items from the DOM and storage.
      */
     removeCompletedItems() {
-      // var self = this;
-      this.model.read({ completed: true }, data => {
+      var self = this;
+      self.model.read({ completed: true }, function(data) {
         data.forEach(item => {
-          this.removeItem(item.id);
+          self.removeItem(item.id);
         });
       });
 
-      this._filter();
+      self._filter();
     }
 
     /**
@@ -211,16 +209,16 @@
      * @param {boolean|undefined} silent Prevent re-filtering the todo items
      */
     toggleComplete(id, completed, silent) {
-      // var self = this;
-      this.model.update(id, { completed: completed }, () => {
-        this.view.render('elementComplete', {
+      var self = this;
+      self.model.update(id, { completed: completed }, function() {
+        self.view.render('elementComplete', {
           id: id,
           completed: completed
         });
       });
 
       if (!silent) {
-        this._filter();
+        self._filter();
       }
     }
 
@@ -229,14 +227,14 @@
      * Just pass in the event object.
      */
     toggleAll(completed) {
-      // var self = this;
-      this.model.read({ completed: !completed }, data => {
+      var self = this;
+      self.model.read({ completed: !completed }, function(data) {
         data.forEach(item => {
-          this.toggleComplete(item.id, completed, true);
+          self.toggleComplete(item.id, completed, true);
         });
       });
 
-      this._filter();
+      self._filter();
     }
 
     /**
@@ -244,18 +242,18 @@
      * number of todos.
      */
     _updateCount() {
-      // var self = this;
-      this.model.getCount(todos => {
-        this.view.render('updateElementCount', todos.active);
-        this.view.render('clearCompletedButton', {
+      var self = this;
+      self.model.getCount(function(todos) {
+        self.view.render('updateElementCount', todos.active);
+        self.view.render('clearCompletedButton', {
           completed: todos.completed,
           visible: todos.completed > 0
         });
 
-        this.view.render('toggleAll', {
+        self.view.render('toggleAll', {
           checked: todos.completed === todos.total
         });
-        this.view.render('contentBlockVisibility', {
+        self.view.render('contentBlockVisibility', {
           visible: todos.total > 0
         });
       });

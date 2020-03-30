@@ -75,13 +75,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "showAll",
       value: function showAll() {
-        var _this2 = this;
-
-        // var self = this;
-        this.model.read(function (data) {
+        var self = this;
+        self.model.read(function (data) {
           // debugger;
-          _this2.view.render('showEntries', data); // console.log('Checking', data);
-
+          self.view.render('showEntries', data); // console.log('Checking', data);
         });
       }
       /**
@@ -91,13 +88,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "showActive",
       value: function showActive() {
-        var _this3 = this;
+        var _this2 = this;
 
-        // var self = this;
-        this.model.read({
+        var self = this;
+        self.model.read({
           completed: false
         }, function (data) {
-          _this3.view.render('showEntries', data);
+          _this2.view.render('showEntries', data);
         });
       }
       /**
@@ -107,15 +104,16 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "showCompleted",
       value: function showCompleted() {
-        var _this4 = this;
+        var _this3 = this;
 
-        // var self = this;
-        this.model.read({
+        var self = this;
+        self.model.read({
           completed: true
         }, function (data) {
-          console.log(_this4);
+          console.log(_this3);
+          console.log(self);
 
-          _this4.view.render('showEntries', data);
+          _this3.view.render('showEntries', data);
         });
       }
       /**
@@ -126,21 +124,16 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "addItem",
       value: function addItem(title) {
-        var _this5 = this;
-
-        // var self = this;
-        console.log('this keyword inside additem', this);
+        var self = this;
 
         if (title.trim() === '') {
           return;
         }
 
-        this.model.create(title, function () {
-          console.log('this keyword inside create model', _this5);
+        self.model.create(title, function () {
+          self.view.render('clearNewTodo');
 
-          _this5.view.render('clearNewTodo');
-
-          _this5._filter(true);
+          self._filter(true);
         });
       }
       /*
@@ -150,12 +143,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "editItem",
       value: function editItem(id) {
-        var _this6 = this;
-
-        // var self = this;
-        console.log('This inside edit item', this);
-        this.model.read(id, function (data) {
-          _this6.view.render('editItem', {
+        var self = this;
+        self.model.read(id, function (data) {
+          self.view.render('editItem', {
             id: id,
             title: data[0].title
           });
@@ -168,9 +158,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "editItemSave",
       value: function editItemSave(id, title) {
-        var _this7 = this;
+        var self = this;
 
-        // var self = this;
         while (title[0] === ' ') {
           title = title.slice(1);
         }
@@ -180,16 +169,16 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         }
 
         if (title.length !== 0) {
-          this.model.update(id, {
+          self.model.update(id, {
             title: title
           }, function () {
-            _this7.view.render('editItemDone', {
+            self.view.render('editItemDone', {
               id: id,
               title: title
             });
           });
         } else {
-          this.removeItem(id);
+          self.removeItem(id);
         }
       }
       /*
@@ -199,9 +188,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "editItemCancel",
       value: function editItemCancel(id) {
-        // var self = this;
-        this.model.read(id, function (data) {
-          this.view.render('editItemDone', {
+        var self = this;
+        self.model.read(id, function (data) {
+          self.view.render('editItemDone', {
             id: id,
             title: data[0].title
           });
@@ -218,11 +207,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "removeItem",
       value: function removeItem(id) {
-        var _this8 = this;
-
-        // var self = this;
+        var self = this;
         var items;
-        this.model.read(function (data) {
+        self.model.read(function (data) {
           items = data;
         });
         items.forEach(function (item) {
@@ -230,11 +217,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             console.log('Element with ID: ' + id + ' has been removed.');
           }
         });
-        this.model.remove(id, function () {
-          _this8.view.render('removeItem', id);
+        self.model.remove(id, function () {
+          self.view.render('removeItem', id);
         });
 
-        this._filter();
+        self._filter();
       }
       /**
        * Will remove all completed items from the DOM and storage.
@@ -243,18 +230,16 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "removeCompletedItems",
       value: function removeCompletedItems() {
-        var _this9 = this;
-
-        // var self = this;
-        this.model.read({
+        var self = this;
+        self.model.read({
           completed: true
         }, function (data) {
           data.forEach(function (item) {
-            _this9.removeItem(item.id);
+            self.removeItem(item.id);
           });
         });
 
-        this._filter();
+        self._filter();
       }
       /**
        * Give it an ID of a model and a checkbox and it will update the item
@@ -269,20 +254,18 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "toggleComplete",
       value: function toggleComplete(id, completed, silent) {
-        var _this10 = this;
-
-        // var self = this;
-        this.model.update(id, {
+        var self = this;
+        self.model.update(id, {
           completed: completed
         }, function () {
-          _this10.view.render('elementComplete', {
+          self.view.render('elementComplete', {
             id: id,
             completed: completed
           });
         });
 
         if (!silent) {
-          this._filter();
+          self._filter();
         }
       }
       /**
@@ -293,18 +276,16 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "toggleAll",
       value: function toggleAll(completed) {
-        var _this11 = this;
-
-        // var self = this;
-        this.model.read({
+        var self = this;
+        self.model.read({
           completed: !completed
         }, function (data) {
           data.forEach(function (item) {
-            _this11.toggleComplete(item.id, completed, true);
+            self.toggleComplete(item.id, completed, true);
           });
         });
 
-        this._filter();
+        self._filter();
       }
       /**
        * Updates the pieces of the page which change depending on the remaining
@@ -314,22 +295,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "_updateCount",
       value: function _updateCount() {
-        var _this12 = this;
-
-        // var self = this;
-        this.model.getCount(function (todos) {
-          _this12.view.render('updateElementCount', todos.active);
-
-          _this12.view.render('clearCompletedButton', {
+        var self = this;
+        self.model.getCount(function (todos) {
+          self.view.render('updateElementCount', todos.active);
+          self.view.render('clearCompletedButton', {
             completed: todos.completed,
             visible: todos.completed > 0
           });
-
-          _this12.view.render('toggleAll', {
+          self.view.render('toggleAll', {
             checked: todos.completed === todos.total
           });
-
-          _this12.view.render('contentBlockVisibility', {
+          self.view.render('contentBlockVisibility', {
             visible: todos.total > 0
           });
         });

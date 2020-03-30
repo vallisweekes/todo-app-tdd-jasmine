@@ -166,6 +166,7 @@ describe('Controller', () => {
   it('should highlight "All" filter by default', () => {
     // TODO: write test
     subject.setView('');
+    expect(view.render).toHaveBeenCalled();
   });
 
   it('should highlight "Active" filter when switching to active view', () => {
