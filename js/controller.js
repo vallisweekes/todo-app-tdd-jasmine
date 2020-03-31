@@ -45,6 +45,7 @@
 
 			this.view.bind('toggleAll', status => {
 				this.toggleAll(status.completed);
+				console.log('The status', this.toggleAll);
 			});
 		}
 
@@ -173,7 +174,7 @@
 
 			items.forEach(function(item) {
 				if (item.id === id) {
-					console.log('Element with ID: ' + id + ' has been removed.');
+					return id;
 				}
 			});
 
@@ -227,11 +228,13 @@
 		 */
 		toggleAll(completed) {
 			var self = this;
+			console.log('Checking this inside ToggleAll', this);
 			self.model.read({ completed: !completed }, function(data) {
 				data.forEach(item => {
 					self.toggleComplete(item.id, completed, true);
 				});
 			});
+			console.log('This filter', self._filter());
 
 			self._filter();
 		}
@@ -265,7 +268,7 @@
 		_filter(force) {
 			var activeRoute =
 				this._activeRoute.charAt(0).toUpperCase() + this._activeRoute.substr(1);
-			console.log('ActiveRoute ✅', activeRoute);
+			// console.log('ActiveRoute ✅', activeRoute);
 			// Update the elements on the page, which change with each completed todo
 			this._updateCount();
 

@@ -94,6 +94,7 @@
 		}
 
 		render(viewCmd, parameter) {
+			console.log('is this called');
 			var viewCommands = {
 				showEntries: () => {
 					this.$todoList.innerHTML = this.template.show(parameter);
@@ -121,6 +122,7 @@
 
 				toggleAll: () => {
 					this.$toggleAll.checked = parameter.checked;
+					console.log(this.$toggleAll.checked);
 				},
 
 				setFilter: () => {
@@ -144,6 +146,8 @@
 					this._editItemDone(parameter.id, parameter.title);
 				}
 			};
+
+			console.log('View cmd', viewCmd, viewCommands);
 
 			viewCommands[viewCmd]();
 		}
@@ -197,6 +201,7 @@
 				});
 			} else if (event === 'toggleAll') {
 				$on(self.$toggleAll, 'click', function() {
+					console.log('Event is toggle all');
 					handler({ completed: this.checked });
 				});
 			} else if (event === 'itemEdit') {
