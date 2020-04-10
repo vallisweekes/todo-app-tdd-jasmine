@@ -67,7 +67,7 @@ describe('Controller', () => {
 
 		subject.setView('/');
 		expect(view.render).toHaveBeenCalled();
-		expect(view.render).toHaveBeenCalledTimes(1);
+		expect(view.render).toHaveBeenCalledWith([todo]);
 	});
 
 	describe('routing', () => {

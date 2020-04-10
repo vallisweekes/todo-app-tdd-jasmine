@@ -7,6 +7,8 @@
     "@zeit/next-sass": "^1.0.1",
     "express": "^4.17.1",
     "express-validator": "^6.4.0",
+    "mongodb": "^3.5.5",
+    "mongoose": "^5.9.7",
     "next": "^9.3.4",
     "node-sass": "^4.13.1",
     "react": "^16.13.1",
