@@ -147,7 +147,7 @@
 				}
 			};
 
-			console.log('View cmd', viewCmd, viewCommands);
+			console.log('View cmd', viewCmd);
 
 			viewCommands[viewCmd]();
 		}

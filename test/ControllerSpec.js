@@ -5,17 +5,17 @@ describe('Controller', () => {
 
 	var subject, model, view;
 
-	var setUpModel = todos => {
+	var setUpModel = (todos) => {
 		model.read.and.callFake((query, callback) => {
 			callback = callback || query;
 			callback(todos);
 		});
 
-		model.getCount.and.callFake(callback => {
+		model.getCount.and.callFake((callback) => {
 			var todoCounts = {
-				active: todos.filter(todo => !todo.completed).length,
-				completed: todos.filter(todo => !!todo.completed).length,
-				total: todos.length
+				active: todos.filter((todo) => !todo.completed).length,
+				completed: todos.filter((todo) => !!todo.completed).length,
+				total: todos.length,
 			};
 
 			callback(todoCounts);
@@ -43,7 +43,7 @@ describe('Controller', () => {
 			},
 			trigger: (event, parameter) => {
 				eventRegistry[event](parameter);
-			}
+			},
 		};
 	};
 
@@ -53,17 +53,15 @@ describe('Controller', () => {
 			'getCount',
 			'remove',
 			'create',
-			'update'
+			'update',
 		]);
 
 		view = createViewStub();
 		subject = new app.Controller(model, view);
-
-		console.log(subject.view);
 	});
 
 	it('should show entries on start-up', () => {
-		// TODO:
+		// TODO: 1 Not testing showing entries on start up
 
 		subject.setView('');
 		expect(view.render).toHaveBeenCalled();
@@ -91,7 +89,7 @@ describe('Controller', () => {
 		});
 
 		it('should show active entries', () => {
-			// TODO:
+			// TODO: 2
 			var todo = { title: 'my todo' };
 			setUpModel([todo]);
 
@@ -101,7 +99,7 @@ describe('Controller', () => {
 		});
 
 		it('should show completed entries', () => {
-			// TODO:
+			// TODO: 3
 
 			var todo = { title: 'my todo', completed: true };
 
@@ -122,7 +120,7 @@ describe('Controller', () => {
 		subject.setView('');
 
 		expect(view.render).toHaveBeenCalledWith('contentBlockVisibility', {
-			visible: true
+			visible: true,
 		});
 		expect(view.render).toHaveBeenCalled();
 	});
@@ -133,7 +131,7 @@ describe('Controller', () => {
 		subject.setView('');
 
 		expect(view.render).toHaveBeenCalledWith('contentBlockVisibility', {
-			visible: false
+			visible: false,
 		});
 	});
 
@@ -143,7 +141,7 @@ describe('Controller', () => {
 		subject.setView('');
 
 		expect(view.render).toHaveBeenCalledWith('toggleAll', {
-			checked: true
+			checked: true,
 		});
 	});
 
@@ -155,7 +153,7 @@ describe('Controller', () => {
 
 		expect(view.render).toHaveBeenCalledWith('clearCompletedButton', {
 			completed: 1,
-			visible: true
+			visible: true,
 		});
 	});
 
@@ -171,7 +169,7 @@ describe('Controller', () => {
 	});
 
 	it('should highlight "Active" filter when switching to active view', () => {
-		// TODO:
+		// TODO: 5  //When User click on Active
 		const currentPage = '';
 		subject.setView('');
 		expect(view.render).toHaveBeenCalledWith('setFilter', currentPage);
@@ -180,7 +178,7 @@ describe('Controller', () => {
 	});
 
 	describe('toggle all', () => {
-		// TODO:
+		// TODO: 6
 		it('should toggle all todos to completed', () => {
 			const spyOnToggleAll = spyOn(
 				window.app.Controller.prototype,
@@ -194,14 +192,12 @@ describe('Controller', () => {
 			expect(spyOnToggleAll).toHaveBeenCalledTimes(2);
 			expect(spyOnToggleAll).toHaveBeenCalledWith(status.completed);
 			expect(spyOnToggleAll).toHaveBeenCalled();
-
-			// expect(view.render).toHaveBeenCalledWith('toggleAll');
 		});
 
 		it('should update the view', () => {
-			// TODO:
+			// TODO: 7
 			subject.setView('');
-			console.log('Callis view', subject.setView(''));
+			// console.log('calls view', subject.setView(''));
 			expect(view.render).toHaveBeenCalled();
 			expect(view.render).toHaveBeenCalledTimes(2);
 		});
@@ -209,7 +205,7 @@ describe('Controller', () => {
 
 	describe('new todo', () => {
 		it('should add a new todo to the model', () => {
-			//TODO:
+			//TODO: 8
 			setUpModel([]);
 			subject.setView('');
 			view.trigger('newTodo', 'title');
@@ -225,12 +221,12 @@ describe('Controller', () => {
 
 			view.render.calls.reset();
 			model.read.calls.reset();
-			model.read.and.callFake(function(callback) {
+			model.read.and.callFake(function (callback) {
 				callback([
 					{
 						title: 'a new todo',
-						completed: false
-					}
+						completed: false,
+					},
 				]);
 			});
 
@@ -241,8 +237,8 @@ describe('Controller', () => {
 			expect(view.render).toHaveBeenCalledWith('showEntries', [
 				{
 					title: 'a new todo',
-					completed: false
-				}
+					completed: false,
+				},
 			]);
 		});
 
@@ -259,7 +255,7 @@ describe('Controller', () => {
 
 	describe('element removal', () => {
 		it('should remove an entry from the model', () => {
-			// TODO:
+			// TODO: 9
 			var todo = { id: 42, title: 'my todo', completed: true };
 			setUpModel([todo]);
 
@@ -339,7 +335,7 @@ describe('Controller', () => {
 
 			expect(view.render).toHaveBeenCalledWith('elementComplete', {
 				id: 42,
-				completed: false
+				completed: false,
 			});
 		});
 	});
@@ -355,7 +351,7 @@ describe('Controller', () => {
 
 			expect(view.render).toHaveBeenCalledWith('editItem', {
 				id: 21,
-				title: 'my todo'
+				title: 'my todo',
 			});
 		});
 
@@ -369,7 +365,7 @@ describe('Controller', () => {
 
 			expect(view.render).toHaveBeenCalledWith('editItemDone', {
 				id: 21,
-				title: 'new title'
+				title: 'new title',
 			});
 		});
 
@@ -420,7 +416,7 @@ describe('Controller', () => {
 
 			expect(view.render).toHaveBeenCalledWith('editItemDone', {
 				id: 21,
-				title: 'my todo'
+				title: 'my todo',
 			});
 		});
 
