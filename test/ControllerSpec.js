@@ -62,8 +62,10 @@ describe('Controller', () => {
 
 	it('should show entries on start-up', () => {
 		// TODO: 1 Not testing showing entries on start up
+		var todo = { title: 'my todo' };
+		setUpModel([todo]);
 
-		subject.setView('');
+		subject.setView('/');
 		expect(view.render).toHaveBeenCalled();
 		expect(view.render).toHaveBeenCalledTimes(1);
 	});
