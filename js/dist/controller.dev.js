@@ -27,6 +27,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       // var self = this;
       this.model = model;
       this.view = view;
+      console.log('What is this doing', view);
       this.view.bind('newTodo', function (title) {
         _this.addItem(title);
       });
@@ -49,7 +50,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         _this.removeCompletedItems();
       });
       this.view.bind('toggleAll', function (status) {
-        _this.toggleAll(status.completed);
+        _this.toggleAll(status.completed); //
+
       });
     }
     /**
@@ -110,7 +112,6 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         self.model.read({
           completed: true
         }, function (data) {
-          console.log(_this3);
           console.log(self);
 
           _this3.view.render('showEntries', data);
@@ -214,7 +215,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         });
         items.forEach(function (item) {
           if (item.id === id) {
-            console.log('Element with ID: ' + id + ' has been removed.');
+            return id;
           }
         });
         self.model.remove(id, function () {
@@ -280,6 +281,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         self.model.read({
           completed: !completed
         }, function (data) {
+          console.log(completed);
           data.forEach(function (item) {
             self.toggleComplete(item.id, completed, true);
           });
@@ -318,7 +320,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "_filter",
       value: function _filter(force) {
-        var activeRoute = this._activeRoute.charAt(0).toUpperCase() + this._activeRoute.substr(1); // Update the elements on the page, which change with each completed todo
+        var activeRoute = this._activeRoute.charAt(0).toUpperCase() + this._activeRoute.substr(1); // console.log('ActiveRoute ✅', activeRoute);
+        // Update the elements on the page, which change with each completed todo
 
 
         this._updateCount(); // If the last active route isn't "All", or we're switching routes, we
@@ -342,7 +345,6 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         // Store a reference to the active route, allowing us to re-filter todo
         // items as they are marked complete or incomplete.
         this._activeRoute = currentPage;
-        console.log('Checking active route', currentPage);
 
         if (currentPage === '') {
           this._activeRoute = 'All';
